@@ -12,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import luvcleanair.the.composepractice.gender_picker.GenderPicker
+import luvcleanair.the.composepractice.tic_tac_toe.TicTacToe
 import luvcleanair.the.composepractice.ui.theme.ComposePracticeTheme
 import luvcleanair.the.composepractice.weight_picker.Scale
 

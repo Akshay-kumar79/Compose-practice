@@ -72,10 +72,10 @@ fun Watch() {
                 }
 
                 drawLine(
-                    color = Color.Black,
+                    color = if (i % 5 == 0) Color.Black else Color.DarkGray,
                     start = lineStart,
                     end = lineEnd,
-                    strokeWidth = if (i % 5 == 0) 5f else 2f,
+                    strokeWidth = if (i % 5 == 0) 4f else 2f,
                     cap = StrokeCap.Round
                 )
             }

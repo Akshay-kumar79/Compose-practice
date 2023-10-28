@@ -3,8 +3,10 @@ package luvcleanair.the.composepractice.gender_picker
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -17,14 +19,23 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import luvcleanair.the.composepractice.R
 import kotlin.math.hypot
 
+@Preview
+@Composable
+private fun GenderPickerPreview() {
+    GenderPicker(
+        onGenderSelected = {}
+    )
+}
+
 @Composable
 fun GenderPicker(
-    modifier: Modifier = Modifier.fillMaxSize(),
+    modifier: Modifier = Modifier,
     maleGradiant: List<Color> = listOf(Color(0xFF6D6DFF), Color.Blue),
     femaleGradiant: List<Color> = listOf(Color(0xFFEA76FF), Color.Magenta),
     distanceBetweenGenders: Dp = 50.dp,
@@ -34,41 +45,41 @@ fun GenderPicker(
     var selectedGender by remember {
         mutableStateOf<Gender>(Gender.Male)
     }
-
+    
     var center by remember {
         mutableStateOf(Offset.Unspecified)
     }
-
+    
     val malePathString = stringResource(id = R.string.male_path_string)
     val femalePathString = stringResource(id = R.string.female_path_string)
-
+    
     val malePath = remember {
         PathParser().parsePathString(malePathString).toPath()
     }
-
+    
     val femalePath = remember {
         PathParser().parsePathString(femalePathString).toPath()
     }
-
+    
     val malePathBounds = remember {
         malePath.getBounds()
     }
-
+    
     val femalePathBounds = remember {
         femalePath.getBounds()
     }
-
+    
     var maleTranslationOffset by remember {
         mutableStateOf(Offset.Zero)
     }
     var femaleTranslationOffset by remember {
         mutableStateOf(Offset.Zero)
     }
-
+    
     var currentClickOffset by remember {
         mutableStateOf(Offset.Zero)
     }
-
+    
     val maleSelectionRadius = animateFloatAsState(
         targetValue = if (selectedGender is Gender.Male) 80f else 0f,
         animationSpec = tween(durationMillis = 500)
@@ -77,9 +88,10 @@ fun GenderPicker(
         targetValue = if (selectedGender is Gender.Female) 80f else 0f,
         animationSpec = tween(durationMillis = 500)
     )
-
+    
     Canvas(
         modifier = modifier
+            .size(250.dp)
             .pointerInput(true) {
                 detectTapGestures {
                     val transformedMaleRect = Rect(
@@ -90,7 +102,7 @@ fun GenderPicker(
                         offset = femaleTranslationOffset,
                         size = femalePathBounds.size * pathScaleFactor
                     )
-
+            
                     if (selectedGender !is Gender.Male && transformedMaleRect.contains(it)) {
                         currentClickOffset = it
                         selectedGender = Gender.Male
@@ -104,29 +116,29 @@ fun GenderPicker(
             }
     ) {
         center = this.center
-
+        
         maleTranslationOffset = Offset(
             x = center.x - malePathBounds.width * pathScaleFactor - distanceBetweenGenders.toPx() / 2f,
             y = center.y - (malePathBounds.height * pathScaleFactor) / 2f
         )
-
+        
         femaleTranslationOffset = Offset(
             x = center.x + distanceBetweenGenders.toPx() / 2f,
             y = center.y - (femalePathBounds.height * pathScaleFactor) / 2f
         )
-
-        val untransformedMaleClickOffset = if (currentClickOffset  == Offset.Zero){
+        
+        val untransformedMaleClickOffset = if (currentClickOffset == Offset.Zero) {
             malePathBounds.center
-        }else{
+        } else {
             (currentClickOffset - maleTranslationOffset) / pathScaleFactor
         }
-
-        val untransformedFemaleClickOffset = if (currentClickOffset  == Offset.Zero){
+        
+        val untransformedFemaleClickOffset = if (currentClickOffset == Offset.Zero) {
             femalePathBounds.center
-        }else{
+        } else {
             (currentClickOffset - femaleTranslationOffset) / pathScaleFactor
         }
-
+        
         translate(
             left = maleTranslationOffset.x,
             top = maleTranslationOffset.y
@@ -171,9 +183,9 @@ fun GenderPicker(
                 }
             }
         }
-
+        
     }
-
+    
 }
 
 

@@ -2,6 +2,7 @@ package luvcleanair.the.composepractice
 
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -12,6 +13,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import java.time.LocalTime
@@ -19,14 +21,14 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-
+@Preview
 @Composable
 fun Watch() {
     var currentTime by remember {
         mutableStateOf(System.currentTimeMillis())
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier) {
         LaunchedEffect(key1 = currentTime) {
             delay(1000)
             currentTime = System.currentTimeMillis()

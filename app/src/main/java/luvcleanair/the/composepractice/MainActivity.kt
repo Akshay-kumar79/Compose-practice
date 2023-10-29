@@ -36,10 +36,10 @@ class MainActivity : ComponentActivity() {
                     Watch()
                     
                     Spacer(modifier = Modifier.height(24.dp))
-                    GenderPicker(onGenderSelected = {})
-                    
-                    Spacer(modifier = Modifier.height(24.dp))
                     Scale(onWeightChange = {})
+    
+                    Spacer(modifier = Modifier.height(24.dp))
+                    GenderPicker(onGenderSelected = {})
                 }
             }
         }
